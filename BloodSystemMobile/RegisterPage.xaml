@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BloodSystemMobile.RegisterPage"
+             Title="RegisterPage">
+    <VerticalStackLayout>
+        <Label 
+            Text="Register"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Entry Placeholder="Name" />
+
+        <DatePicker />
+
+        <Picker Title="Gender" />
+
+        <Entry Placeholder="NIC" />
+
+        <Entry Placeholder="Address" />
+
+        <Picker Title="District" />
+
+        <Picker Title="City" />
+
+        <Entry Placeholder="Mobile No" />
+
+        <Entry Placeholder="Email" />
+
+        <Entry Placeholder="Username" />
+
+        <Entry Placeholder="Password" />
+
+        <Entry Placeholder="Retype Password" />
+
+        <Button
+x:Name="btnReg"
+Text="Register"
+SemanticProperties.Hint="Counts the number of times you click"
+Clicked="btnReg_Clicked"
+HorizontalOptions="Center" />
+
+
+    </VerticalStackLayout>
+</ContentPage>
