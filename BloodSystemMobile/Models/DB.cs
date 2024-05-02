@@ -9,6 +9,7 @@ using System.IO;
 using System.Xml.Serialization;
 using BloodDonationManamentSystem.Models;
 using System.Security.RightsManagement;
+using Microsoft.Data.SqlClient;
 
 namespace BloodDonationManamentSystem
 {
