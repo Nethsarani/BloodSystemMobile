@@ -1,4 +1,6 @@
-﻿namespace BloodSystemMobile
+﻿using BloodDonationManamentSystem;
+
+namespace BloodSystemMobile
 {
     public partial class App : Application
     {
@@ -7,6 +9,7 @@
             InitializeComponent();
 
             MainPage = new AppShell();
-        }
+            
+    }
     }
 }

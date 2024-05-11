@@ -1,9 +1,18 @@
+using BloodDonationManamentSystem;
+
 namespace BloodSystemMobile;
 
-public partial class NewPage1 : ContentPage
+public partial class LoginPage : ContentPage
 {
-	public NewPage1()
+	DB dB = new DB();
+
+	public LoginPage()
 	{
 		InitializeComponent();
-	}
+        
+    }
+    private void btnLogin_Clicked(object sender, EventArgs e)
+    {
+        
+    }
 }

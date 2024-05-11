@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
 using BloodDonationManamentSystem.Models;
-using System.Security.RightsManagement;
+//using System.Security.RightsManagement;
 using Microsoft.Data.SqlClient;
 
 namespace BloodDonationManamentSystem

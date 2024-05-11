@@ -1,11 +1,15 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BloodDonationManamentSystem;
+using Microsoft.Extensions.Logging;
 
 namespace BloodSystemMobile
 {
+
     public static class MauiProgram
     {
+        
         public static MauiApp CreateMauiApp()
         {
+
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -14,6 +18,7 @@ namespace BloodSystemMobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+            
 
 #if DEBUG
 		builder.Logging.AddDebug();
