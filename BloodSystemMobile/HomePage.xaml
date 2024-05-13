@@ -18,9 +18,49 @@
         <IndicatorView x:Name="BannerIndicator" HorizontalOptions="Center">
 
         </IndicatorView>
-
-        <Label Text="Blood Requests" FontSize="Large" FontAttributes="Bold"/>
-
+        
+        <VerticalStackLayout ZIndex="0">
+          <Label Text="Do you like to become a donor?" HorizontalOptions="Center"></Label>
+        <Button
+                x:Name="btnReg"
+                Text="Register"
+                SemanticProperties.Hint="Register as a new donor"
+                Clicked="btnReg_Clicked"
+                HorizontalOptions="Center" />
+        </VerticalStackLayout>
+        <VerticalStackLayout ZIndex="1">
+          <Label Text="Blood Requests" FontSize="Large" FontAttributes="Bold"/>
+        <Grid RowDefinitions="40, *" Padding="5">
+          <Grid ColumnDefinitions="100, *, 80" Grid.Row="0">
+        <Label Text="Hospital" Grid.Row="0" Grid.Column="0" Padding="10"/>
+        <Label Text="Location" Grid.Row="0" Grid.Column="1" Padding="10"/>
+        <Label Text="Amount" Grid.Row="0" Grid.Column="2" Padding="10"/>
+    </Grid>
+    <CollectionView ItemsSource="{Binding Items, Converter={StaticResource sconverter}}"
+                    Grid.Row="1">
+        <!-- , Converter={StaticResource converter}-->
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                    <Grid ColumnDefinitions="100, *, 80"
+                    Grid.Row="1">
+                    <Label Text="{Binding Hospital.Name}"  
+                            Padding="5" Grid.Column="0"/>
+                    <!--BackgroundColor="DarkGray"/-->
+                    <Label Text="{Binding Hospital.Location.Address}"  
+                            Padding="5" Grid.Column="1"/>
+                    <!--BackgroundColor="LightGray"/-->
+                    <Label Text="{Binding Amount, Converter={StaticResource vconverter}}" 
+                            Padding="5" Grid.Column="2"/>
+                    <!--BackgroundColor="DarkGray"/-->
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</Grid>
+        </VerticalStackLayout>
+        
+        
+        
 
         <Label Text="Ucoming Events" FontSize="Large" FontAttributes="Bold"/>
         <CarouselView x:Name="UpcomingView" IndicatorView="UpcommingIndicator">
