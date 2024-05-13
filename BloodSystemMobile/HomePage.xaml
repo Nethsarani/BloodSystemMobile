@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BloodSystemMobile.HomePage"
+             Title="HomePage">
+    <VerticalStackLayout>
+
+
+        <CarouselView x:Name="MainBanner" IndicatorView="BannerIndicator">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <Image Source="{Binding.}"></Image>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="BannerIndicator" HorizontalOptions="Center">
+
+        </IndicatorView>
+
+        <Label Text="Blood Requests" FontSize="Large" FontAttributes="Bold"/>
+
+
+        <Label Text="Ucoming Events" FontSize="Large" FontAttributes="Bold"/>
+        <CarouselView x:Name="UpcomingView" IndicatorView="UpcommingIndicator">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <Label Text="{Binding Name}"></Label>
+                        <Label Text="{Binding Date}"></Label>
+                        <Label Text="{Binding StartTime}"></Label>
+                        <Label Text="{Binding EndTime}"></Label>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="UpcomingIndicator" HorizontalOptions="Center">
+            
+        </IndicatorView>
+
+    </VerticalStackLayout>
+    
+</ContentPage>
