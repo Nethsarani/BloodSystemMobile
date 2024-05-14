@@ -17,7 +17,18 @@ public partial class HomePage : ContentPage
     public HomePage()
 	{
 		InitializeComponent();
-        Table.ItemsSource = dB.getRequests(loggedDonor.BloodType);
+        if(loggedDonor != null)
+        {
+            Table.ItemsSource = dB.getRequests(loggedDonor.BloodType);
+            guestpath.IsVisible = false;
+            donorpath.IsVisible = true;
+        }
+        else
+        {
+            donorpath.IsVisible = false;
+            guestpath.IsVisible = true;
+        }
+        
 
 	}
 

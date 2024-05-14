@@ -13,17 +13,9 @@ namespace BloodDonationManamentSystem
         public string StartTime { get; set; }
         public string EndTime { get; set; }
 
-        public DonationCamp(string name, Location location, string contact, string email, string username, string password, DateTime date, string sTime, string eTime)
+        public DonationCamp()
         {
-            Name = name;
-            Location = location;
-            ContactNo = contact;
-            Email = email;
-            Username = username;
-            Password = password;
-            Date = date;
-            StartTime = sTime;
-            EndTime= eTime;
+
         }
 
     }

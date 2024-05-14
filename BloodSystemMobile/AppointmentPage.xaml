@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
              x:Class="BloodSystemMobile.AppointmentPage"
              Title="AppointmentPage">
     <VerticalStackLayout>
@@ -18,9 +19,9 @@
 
         <Picker x:Name="pckCentre" Title="Centre" SelectedIndexChanged="pckCentre_SelectedIndexChanged"/>
 
-        <DatePicker x:Name="pckDate"/>
+        <telerik:RadDatePicker x:Name="pckDate" SelectionChanged="pckDate_SelectionChanged"/>
 
-        <TimePicker x:Name="pckTime"/>
+        <telerik:RadTimePicker x:Name="pckTime" MinuteStep="30" />
 
         <Picker x:Name="pckPurpose" Title="Purpose" />
 

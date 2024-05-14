@@ -15,7 +15,7 @@ namespace BloodDonationManamentSystem
 {
     public class DB
     {
-        public SqlConnection con = new SqlConnection( @"Data Source=sql.bsite.net\MSSQL2016;Initial Catalog=nethsarani_BloodSystem;Persist Security Info=True;User ID=nethsarani_BloodSystem;Password=neth1234;");
+        public SqlConnection con = new SqlConnection(@"Data Source=sql.bsite.net\MSSQL2016;Initial Catalog=nethsarani_BloodSystem;Persist Security Info=True;User ID=nethsarani_BloodSystem;Password=neth1234;TrustServerCertificate=true;");
         SqlCommand command;
         public void insertToDatabase(object classobj, string type)
         {
@@ -410,6 +410,33 @@ namespace BloodDonationManamentSystem
             return x;
         }
 
+        public List<Donation> getDonations(int id)
+        {
+
+            con.Open();
+            command = new SqlCommand("Select CollectionPointID,Date from DonationTable WHERE DonorID=@id;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", id);
+            sqlParam1.DbType = DbType.Int32;
+            SqlDataReader reader = command.ExecuteReader();
+            List<Donation> x = new List<Donation>();
+            while (reader.Read())
+            {
+                Donation don = new Donation();
+                if(reader.GetInt32(0)%2==0) {
+                    don.collectionPoint=getDonationCamp(reader.GetInt32(0));
+                }
+                else
+                {
+                    don.collectionPoint = getHospital(reader.GetInt32(0));
+                }
+                
+                don.Date = reader.GetDateTime(1);
+                x.Add(don);
+            }
+            con.Close();
+            return x;
+        }
+
         public Hospital getHospital(int id)
         {
 
@@ -434,6 +461,35 @@ namespace BloodDonationManamentSystem
                 x.Password=reader.GetString(10);
                 x.Status=reader.GetString(11);
 
+            }
+            con.Close();
+            return x;
+        }
+
+        public DonationCamp getDonationCamp(int id)
+        {
+
+            con.Open();
+            
+                command = new SqlCommand("Select * from DonationCampTable WHERE ID=@id;", con);
+            
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", id);
+            sqlParam1.DbType = DbType.Int32;
+            SqlDataReader reader = command.ExecuteReader();
+            DonationCamp x = new DonationCamp(); ;
+            while (reader.Read())
+            {
+                    x.ID = reader.GetInt32(0);
+                    x.Name = reader.GetString(1);
+                    x.Date = reader.GetDateTime(2);
+                    x.StartTime = reader.GetString(3);
+                    x.EndTime = reader.GetString(4);
+                    x.ContactNo = reader.GetString(5);
+                    x.Email = reader.GetString(6);
+                    x.Location = xmlToObject<Location>(reader.GetString(7));
+                    x.Username = reader.GetString(8);
+                    x.Password = reader.GetString(9);
+                    x.Status = reader.GetString(10);
             }
             con.Close();
             return x;

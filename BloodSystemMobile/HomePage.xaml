@@ -19,7 +19,7 @@
 
         </IndicatorView>
         
-        <VerticalStackLayout ZIndex="0">
+        <VerticalStackLayout x:Name="guestpath" ZIndex="0">
           <Label Text="Do you like to become a donor?" HorizontalOptions="Center"></Label>
         <Button
                 x:Name="btnReg"
@@ -28,7 +28,7 @@
                 Clicked="btnReg_Clicked"
                 HorizontalOptions="Center" />
         </VerticalStackLayout>
-        <VerticalStackLayout ZIndex="1">
+        <VerticalStackLayout x:Name="donorpath" ZIndex="1">
             <Label Text="Blood Requests" FontSize="Large" FontAttributes="Bold"/>
             <Grid RowDefinitions="40, *" Padding="5">
                 <Grid ColumnDefinitions="100, *, 80" Grid.Row="0">
@@ -57,7 +57,7 @@
         
         
 
-        <Label Text="Ucoming Events" FontSize="Large" FontAttributes="Bold"/>
+        <Label Text="Upcoming Events" FontSize="Large" FontAttributes="Bold"/>
         <CarouselView x:Name="UpcomingView" IndicatorView="UpcommingIndicator">
             <CarouselView.ItemTemplate>
                 <DataTemplate>

@@ -24,8 +24,6 @@
                             <!--BackgroundColor="DarkGray"/-->
                             <Label Text="{Binding CollectionPoint.Name}" Padding="5" Grid.Column="1"/>
                             <!--BackgroundColor="LightGray"/-->
-                            <Label Text="{Binding Amount}" Padding="5" Grid.Column="2"/>
-                            <!--BackgroundColor="DarkGray"/-->
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

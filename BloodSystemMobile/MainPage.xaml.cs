@@ -22,7 +22,8 @@ namespace BloodSystemMobile
 
         private async void btnGuest_Clicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            var navigationParam = new Dictionary<string, object> { { "donor", null } };
+            await Shell.Current.GoToAsync($"//{nameof(HomePage)}", navigationParam);
         }
 
     }
