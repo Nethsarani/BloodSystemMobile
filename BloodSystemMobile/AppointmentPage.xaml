@@ -5,8 +5,31 @@
              Title="AppointmentPage">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="Make Appointment"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Label x:Name="testlabel" Text="initial"></Label>
+
+
+        <Picker x:Name="pckDistrict" Title="District" SelectedIndexChanged="pckDistrict_SelectedIndexChanged"/>
+
+        <Picker x:Name="pckCity" Title="City" SelectedIndexChanged="pckCity_SelectedIndexChanged"/>
+
+        <Picker x:Name="pckCentre" Title="Centre" SelectedIndexChanged="pckCentre_SelectedIndexChanged"/>
+
+        <DatePicker x:Name="pckDate"/>
+
+        <TimePicker x:Name="pckTime"/>
+
+        <Picker x:Name="pckPurpose" Title="Purpose" />
+
+        <Button 
+            x:Name="btnSubmit"
+            Text="Submit"
+            SemanticProperties.Hint="Make the appointment"
+            Clicked="btnSubmit_Clicked"
+            HorizontalOptions="Center" />
+
     </VerticalStackLayout>
 </ContentPage>

@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using BloodDonationManamentSystem.Models;
 //using System.Security.RightsManagement;
 using Microsoft.Data.SqlClient;
+using Java.Sql;
 
 namespace BloodDonationManamentSystem
 {
@@ -253,6 +254,142 @@ namespace BloodDonationManamentSystem
             return temp;
         }
 
+        public bool userCheck(string type, string username)
+        {
+            bool available=true;
+            con.Open();
+            command = new SqlCommand("Select Count(ID) from "+type+"Table WHERE Username=@user;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@user", username);
+            sqlParam1.DbType = DbType.String;
+            SqlDataReader reader = command.ExecuteReader();
+            int x = 0;
+            while (reader.Read())
+            {
+                x= reader.GetInt32(0);
+            }
+            con.Close();
+            if(x>0)
+            {
+                available = false;
+            }
+            return available;
+        }
+
+        public int IDCheck(string type, string value, string property)
+        {
+            con.Open();
+            command = new SqlCommand("Select ID from " + type + "Table WHERE @property=@value;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@value", value);
+            sqlParam1.DbType = DbType.String;
+            SqlParameter sqlParam2 = command.Parameters.AddWithValue("@property", property);
+            sqlParam2.DbType = DbType.String;
+            SqlDataReader reader = command.ExecuteReader();
+            int x = 0;
+            while (reader.Read())
+            {
+                x = reader.GetInt32(0);
+            }
+            con.Close();
+            
+            return x;
+        }
+
+        public List<String> getDistrict()
+        {
+            con.Open();
+            command = new SqlCommand("Select name_en from districtsTable;", con);
+            SqlDataReader reader = command.ExecuteReader();
+            List<String> x = new List<string>();
+            while (reader.Read())
+            {
+                x.Add(reader.GetString(0));
+            }
+            con.Close();
+            return x;
+        }
+
+        public List<String> getCity(String district)
+        {
+            int disID = IDCheck("districts", district, "name_en");
+            con.Open();
+            command = new SqlCommand("Select name_en from citiesTable WHERE district_id=@id;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", disID);
+            sqlParam1.DbType = DbType.String;
+            SqlDataReader reader = command.ExecuteReader();
+            List<String> x = new List<string>();
+            while (reader.Read())
+            {
+                x.Add(reader.GetString(0));
+            }
+            con.Close();
+            return x;
+        }
+
+        public Dictionary<int, String> getCentre(String city)
+        {
+            
+            con.Open();
+            string sql = string.Format(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={0}]')=1", city);
+            command = new SqlCommand(sql, con);
+            SqlDataReader reader = command.ExecuteReader();
+            Dictionary<int, String> list= new Dictionary<int, String>();
+            while (reader.Read())
+            {
+                list.Add(reader.GetInt32(0), reader.GetString(1));
+                
+            }
+            con.Close();
+            con.Open();
+            sql = string.Format(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
+            command = new SqlCommand(sql, con);
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(reader.GetInt32(0), reader.GetString(1));
+            }
+            con.Close();
+            return list;
+        }
+
+        public List<TimeRange> checkTime(int id)
+        {
+            DateTime date;
+            TimeSpan start;
+            TimeSpan end;
+            List<TimeRange> x = new List<TimeRange>();
+            if (id % 2 == 0)
+            {
+                con.Open();
+                command = new SqlCommand("Select Date,StartTime,EndTime from DonationCampTable WHERE IDd=@id;", con);
+                SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", id);
+                sqlParam1.DbType = DbType.String;
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    TimeRange x1 = new TimeRange();
+                    x1.Date=reader.GetDateTime(0).ToString();
+                    x1.Open=reader.GetTimeSpan(1).ToString();
+                    x1.Close = reader.GetTimeSpan(2).ToString();
+                }
+                con.Close();
+            }
+            else
+            {
+                con.Open();
+                command = new SqlCommand("Select OpenTimes from HospitalTable WHERE ID=@id;", con);
+                SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", id);
+                sqlParam1.DbType = DbType.String;
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string xml=reader.GetString(0);
+                    x.Add(xmlToObject<TimeRange>(xml));
+                }
+                con.Close();
+            }
+            return x;
+        }
+
         static T xmlToObject<T>(string xmlString)
         {
             T classObject;
@@ -344,6 +481,7 @@ namespace BloodDonationManamentSystem
                 temp.health=(HealthCondition)xmlToObject<HealthCondition>(reader.GetString(9));
                 temp.Username = reader.GetString(10);
                 temp.Password = reader.GetString(11);
+                temp.Status = reader.GetString(12);
             }
             con.Close();
             return temp;

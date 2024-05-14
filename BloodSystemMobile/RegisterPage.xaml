@@ -3,43 +3,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BloodSystemMobile.RegisterPage"
              Title="RegisterPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Register"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label 
+        Text="Register"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center" 
+                FontSize="Title"
+                FontAttributes="Bold"/>
 
-        <Entry Placeholder="Name" />
+            <Border x:Name="bdrName" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtName" Placeholder="Name" TextChanged="txtName_TextChanged"/>
+            </Border>
 
-        <DatePicker />
+            <Border x:Name="bdrDOB" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <DatePicker x:Name="pckDOB" DateSelected="pckDOB_DateSelected"/>
+            </Border>
 
-        <Picker Title="Gender" />
+            <Border x:Name="bdrGender" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Picker x:Name="pckGender" Title="Gender" SelectedIndexChanged="pckGender_SelectedIndexChanged"/>
+            </Border>
 
-        <Entry Placeholder="NIC" />
+            <Border x:Name="bdrNIC" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtNIC" Placeholder="NIC" TextChanged="txtNIC_TextChanged"/>
+            </Border>
 
-        <Entry Placeholder="Address" />
+            <Border x:Name="bdrAddress" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtAddress" Placeholder="Address" TextChanged="txtAddress_TextChanged"/>
+            </Border>
 
-        <Picker Title="District" />
+            <Border x:Name="bdrDistrict" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Picker x:Name="pckDistrict" Title="District" SelectedIndexChanged="pckDistrict_SelectedIndexChanged"/>
+            </Border>
 
-        <Picker Title="City" />
+            <Border x:Name="bdrCity" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Picker x:Name="pckCity" Title="City" SelectedIndexChanged="pckCity_SelectedIndexChanged"/>
+            </Border>
 
-        <Entry Placeholder="Mobile No" />
+            <Border x:Name="bdrTel" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtTel" Placeholder="Mobile No" TextChanged="txtTel_TextChanged"/>
+            </Border>
 
-        <Entry Placeholder="Email" />
+            <Border x:Name="bdrEmail" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtEmail" Placeholder="Email" TextChanged="txtEmail_TextChanged"/>
+            </Border>
 
-        <Entry Placeholder="Username" />
+            <Border x:Name="bdrUName" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtUsername" Placeholder="Username" TextChanged="txtUsername_TextChanged"/>
+            </Border>
 
-        <Entry Placeholder="Password" />
+            <Border x:Name="bdrPass" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtPassword" Placeholder="Password" TextChanged="txtPassword_TextChanged"/>
+            </Border>
 
-        <Entry Placeholder="Retype Password" />
+            <Border x:Name="bdrRePass" Stroke="Black" StrokeShape="RoundRectangle 10" StrokeThickness="2" Padding="5,4,5,4" Margin="0,15,0,0">
+                <Entry x:Name="txtRePassword" Placeholder="Retype Password" TextChanged="txtRePassword_TextChanged"/>
+            </Border>
 
-        <Button
-x:Name="btnReg"
-Text="Register"
-SemanticProperties.Hint="Counts the number of times you click"
-Clicked="btnReg_Clicked"
-HorizontalOptions="Center" />
+            <Button 
+        x:Name="btnReg"
+        Text="Register"
+        SemanticProperties.Hint="Register as a new donor"
+        Clicked="btnReg_Clicked"
+        HorizontalOptions="Center" 
+                Margin="0,15,0,0"/>
 
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+
+    </ScrollView>
+    
 </ContentPage>

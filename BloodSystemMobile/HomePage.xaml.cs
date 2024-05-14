@@ -1,9 +1,26 @@
+using BloodDonationManamentSystem;
 namespace BloodSystemMobile;
+
+[QueryProperty(nameof(donor), "donor")]
 
 public partial class HomePage : ContentPage
 {
-	public HomePage()
+    DB dB = new DB();
+    public Donor donor
+    {
+        set
+        {
+            loggedDonor = value;
+        }
+    }
+    public Donor loggedDonor;
+    public HomePage()
 	{
 		InitializeComponent();
 	}
+
+    private void btnReg_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

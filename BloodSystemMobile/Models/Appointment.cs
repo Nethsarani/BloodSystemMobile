@@ -12,7 +12,7 @@ namespace BloodDonationManamentSystem.Models
         public Donor Donor { get; set; }
         public CollectionPoint Place { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
         public string Description { get; set; }
 
     }

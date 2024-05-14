@@ -20,9 +20,9 @@ namespace BloodSystemMobile
             await Shell.Current.GoToAsync($"//{nameof(RegisterPage)}");
         }
 
-        private void btnGuest_Clicked(object sender, EventArgs e)
+        private async void btnGuest_Clicked(object sender, EventArgs e)
         {
-            //Shell.Current.GoToAsync(nameof(RegisterPage));
+            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
         }
 
     }

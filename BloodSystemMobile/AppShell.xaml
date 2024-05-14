@@ -4,22 +4,57 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:BloodSystemMobile"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Flyout"
+    Shell.TabBarIsVisible="False">
+
+    <Shell.FlyoutHeader>
+        <Label>></Label>
+    </Shell.FlyoutHeader>
+
+    <Shell.FlyoutFooter>
+        <VerticalStackLayout>
+            <Label Text="Logged in as " Margin="10,10,10,10" FontSize="Medium"></Label>
+            <Button x:Name="btnLogout" Text="Log out" Clicked="btnLogout_Clicked" Margin="10,10,10,10"></Button>
+        </VerticalStackLayout>
+        
+    </Shell.FlyoutFooter>
+
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <HorizontalStackLayout>
+                
+                <Label Text="{Binding Title}" FontSize="Medium" Margin="10,10,10,10" FontAttributes="Bold"></Label>
+            </HorizontalStackLayout>
+        </DataTemplate>
+    </Shell.ItemTemplate>
 
     <ShellContent
-        Title="Home"
+        Title="Welcome"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
 
-        <ShellContent Title="RegisterPage"
+        <ShellContent Title="Register Page"
                       Route="RegisterPage"
-                      ContentTemplate="{DataTemplate local:RegisterPage}"/>
+                      ContentTemplate="{DataTemplate local:RegisterPage}" FlyoutItemIsVisible="False"/>
 
-        <ShellContent Title="LoginPage"
+        <ShellContent Title="Login Page"
                       Route="LoginPage"
-                      ContentTemplate="{DataTemplate local:LoginPage}"/>
+                      ContentTemplate="{DataTemplate local:LoginPage}" FlyoutItemIsVisible="False"/>
+
+        <ShellContent Title="Appointment Page"
+              Route="AppointmentPage"
+              ContentTemplate="{DataTemplate local:AppointmentPage}"/>
+
+        <ShellContent Title="Donation Page"
+              Route="DonationPage"
+              ContentTemplate="{DataTemplate local:DonationPage}"/>
+
+        <ShellContent Title="Home Page"
+      Route="HomePage"
+      ContentTemplate="{DataTemplate local:HomePage}"/>
+
 
     </FlyoutItem>
 

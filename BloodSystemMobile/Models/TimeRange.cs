@@ -8,8 +8,8 @@ namespace BloodDonationManamentSystem.Models
 {
     public class TimeRange
     {
-        string Date;
-        String Open;
-        String Close;
+        public string Date { get; set; }
+        public String Open { get; set; }
+        public String Close { get; set; }
     }
 }
