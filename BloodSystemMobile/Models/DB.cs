@@ -390,6 +390,23 @@ namespace BloodDonationManamentSystem
             return x;
         }
 
+        public List<String> getRequests(String blood)
+        {
+            
+            con.Open();
+            command = new SqlCommand("Select name_en from citiesTable WHERE district_id=@id;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", disID);
+            sqlParam1.DbType = DbType.String;
+            SqlDataReader reader = command.ExecuteReader();
+            List<String> x = new List<string>();
+            while (reader.Read())
+            {
+                x.Add(reader.GetString(0));
+            }
+            con.Close();
+            return x;
+        }
+
         static T xmlToObject<T>(string xmlString)
         {
             T classObject;

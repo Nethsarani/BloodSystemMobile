@@ -36,7 +36,7 @@
                     <Label Text="Location" Grid.Row="0" Grid.Column="1" Padding="10"/>
                     <Label Text="Amount" Grid.Row="0" Grid.Column="2" Padding="10"/>
                 </Grid>
-                <CollectionView ItemsSource="{Binding Items, Converter={StaticResource sconverter}}" Grid.Row="1">
+                <CollectionView x:Name="Table" ItemsSource="{Binding Items}" Grid.Row="1">
                     <!-- , Converter={StaticResource converter}-->
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -45,7 +45,7 @@
                                 <!--BackgroundColor="DarkGray"/-->
                                 <Label Text="{Binding Hospital.Location.Address}" Padding="5" Grid.Column="1"/>
                                 <!--BackgroundColor="LightGray"/-->
-                                <Label Text="{Binding Amount, Converter={StaticResource vconverter}}" Padding="5" Grid.Column="2"/>
+                                <Label Text="{Binding Amount}" Padding="5" Grid.Column="2"/>
                                 <!--BackgroundColor="DarkGray"/-->
                             </Grid>
                         </DataTemplate>

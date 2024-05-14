@@ -17,6 +17,8 @@ public partial class HomePage : ContentPage
     public HomePage()
 	{
 		InitializeComponent();
+        Table.ItemsSource = dB.getRequest();
+
 	}
 
     private void btnReg_Clicked(object sender, EventArgs e)
