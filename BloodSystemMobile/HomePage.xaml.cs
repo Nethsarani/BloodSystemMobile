@@ -17,7 +17,7 @@ public partial class HomePage : ContentPage
     public HomePage()
 	{
 		InitializeComponent();
-        Table.ItemsSource = dB.getRequest();
+        Table.ItemsSource = dB.getRequests(loggedDonor.BloodType);
 
 	}
 

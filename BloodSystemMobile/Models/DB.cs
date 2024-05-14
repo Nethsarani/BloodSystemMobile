@@ -390,18 +390,50 @@ namespace BloodDonationManamentSystem
             return x;
         }
 
-        public List<String> getRequests(String blood)
+        public List<Request> getRequests(String blood)
         {
             
             con.Open();
-            command = new SqlCommand("Select name_en from citiesTable WHERE district_id=@id;", con);
-            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", disID);
+            command = new SqlCommand("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@type", blood);
             sqlParam1.DbType = DbType.String;
             SqlDataReader reader = command.ExecuteReader();
-            List<String> x = new List<string>();
+            List<Request> x = new List<Request>();
             while (reader.Read())
             {
-                x.Add(reader.GetString(0));
+                Request request = new Request();
+                request.Hospital = getHospital(reader.GetInt32(0));
+                request.BloodAmount=reader.GetDecimal(1);
+                x.Add(request);
+            }
+            con.Close();
+            return x;
+        }
+
+        public Hospital getHospital(int id)
+        {
+
+            con.Open();
+            command = new SqlCommand("Select * from HospitalTable WHERE ID=@id;", con);
+            SqlParameter sqlParam1 = command.Parameters.AddWithValue("@id", id);
+            sqlParam1.DbType = DbType.Int32;
+            SqlDataReader reader = command.ExecuteReader();
+            Hospital x = new Hospital();
+            while (reader.Read())
+            {
+                x.ID = reader.GetInt32(0);
+                x.Name = reader.GetString(1);
+                x.RegNo=reader.GetString(2);
+                x.Location=xmlToObject<Location>(reader.GetString(3));
+                x.ContactNo=reader.GetString(4);
+                x.Email=reader.GetString(5);
+                x.isTesting=reader.GetBoolean(6);
+                x.isCollecting=reader.GetBoolean(7);
+                x.OpenTimes=xmlToObject<List<TimeSpan>>(reader.GetString(8));
+                x.Username=reader.GetString(9);
+                x.Password=reader.GetString(10);
+                x.Status=reader.GetString(11);
+
             }
             con.Close();
             return x;
