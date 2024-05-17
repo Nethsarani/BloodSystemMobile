@@ -16,9 +16,13 @@ namespace BloodDonationManamentSystem.Models
         public int Id { get; set; }
         
         [Column("DonorID")]
+        public int donorId { get; set; }
+        
         public Donor Donor { get; set; }
         
         [Column("CollectionPointID")]
+        public int placeId { get; set; }
+        
         public CollectionPoint Place { get; set; }
         
         [Column("Date")]
