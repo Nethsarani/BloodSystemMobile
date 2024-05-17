@@ -52,9 +52,6 @@ public partial class AppointmentPage : ContentPage
             var navigationParam = new Dictionary<string, object> { { "donor", loggedDonor } };
             await Shell.Current.GoToAsync($"//{nameof(HomePage)}",navigationParam);
         }
-        
-
-
     }
 
     private void pckDistrict_SelectedIndexChanged(object sender, EventArgs e)
@@ -106,9 +103,7 @@ public partial class AppointmentPage : ContentPage
                     pckTime.MinimumTime = TimeSpan.Parse(day.Open);
                     pckTime.MaximumTime = TimeSpan.Parse(day.Close);
                 }
-            }
-            
+            }  
         }
-
     }
 }

@@ -9,13 +9,13 @@ using System.Xml.Serialization;
 using BloodDonationManamentSystem.Models;
 //using System.Security.RightsManagement;
 using Microsoft.Data.SqlClient;
-using Java.Sql;
+using BloodSystemMobile;
 
 namespace BloodDonationManamentSystem
 {
     public class DB
     {
-        public SqlConnection con = new SqlConnection(@"Data Source=sql.bsite.net\MSSQL2016;Initial Catalog=nethsarani_BloodSystem;Persist Security Info=True;User ID=nethsarani_BloodSystem;Password=neth1234;TrustServerCertificate=true;");
+        public SqlConnection con = new SqlConnection(@"Data Source=sql.bsite.net\MSSQL2016;Initial Catalog=nethsarani_BloodSystem;User ID=nethsarani_BloodSystem;Password=neth1234;TrustServerCertificate=true;Encrypt=false;multisubnetfailover=true;");
         SqlCommand command;
         public void insertToDatabase(object classobj, string type)
         {
@@ -166,7 +166,6 @@ namespace BloodDonationManamentSystem
             {
                 HospitalUser obj = (HospitalUser)classobj;
                 command = new SqlCommand("insert into HospitalUsersTable (HospitalID, Name, NIC, Position, ContactNo, Email, Username, Password, Privialges) values (@hospital, @name, @nic, @position, @contact, @email, @username, @password, @privilages );", con);
-                command = new SqlCommand("insert into HospitalUsersTable (HospitalID, Name, NIC, Position, ContactNo, Email, Username, Password, Privialges) values (@hospital, @name, @nic, @position, @contact, @email, @username, @password, @privilages );", con);
                 SqlParameter sqlParam1 = command.Parameters.AddWithValue("@hospital", obj.hospital.ID);
                 sqlParam1.DbType = DbType.Int32;
                 SqlParameter sqlParam2 = command.Parameters.AddWithValue("@name", obj.Name);
@@ -236,22 +235,6 @@ namespace BloodDonationManamentSystem
             }
             command.ExecuteNonQuery();
             con.Close();
-        }
-
-        public object takeFromDatabase(string filmname)
-        {
-            con.Open();
-            string sql = string.Format(@"Select * From [FilmTable] Where Film.exist('/Film[name={0}]')=1", filmname);
-            SqlCommand abc = new SqlCommand(sql, con);
-            SqlDataReader xxx = abc.ExecuteReader();
-            object temp = null;
-            while (xxx.Read())
-            {
-                string xml = xxx.GetString(0);
-                temp = (object)xmlToObject<object>(xml);
-            }
-            con.Close();
-            return temp;
         }
 
         public bool userCheck(string type, string username)
@@ -524,7 +507,7 @@ namespace BloodDonationManamentSystem
         public User Login(string username, string password, string type)
         {
             con.Open();
-            command = new SqlCommand(@"Select * From ["+type+"Table] Where Username=@username and Password=@password",con);
+            command = new SqlCommand(@"Select * From DonorTable Where Username=@username and Password=@password",con);
             SqlParameter sqlParam2 = command.Parameters.AddWithValue("@username", username);
             sqlParam2.DbType = DbType.String;
             SqlParameter sqlParam3 = command.Parameters.AddWithValue("@password", password);
@@ -563,7 +546,7 @@ namespace BloodDonationManamentSystem
         public Donor DonorLogin(string username, string password)
         {
             con.Open();
-            command = new SqlCommand(@"Select * From [DonorsTable] Where Username=@username and Password=@password", con);
+            command = new SqlCommand(@"Select * From DonorTable Where Username=@username and Password=@password", con);
             SqlParameter sqlParam2 = command.Parameters.AddWithValue("@username", username);
             sqlParam2.DbType = DbType.String;
             SqlParameter sqlParam3 = command.Parameters.AddWithValue("@password", password);
@@ -578,15 +561,31 @@ namespace BloodDonationManamentSystem
                 temp.Gender = reader.GetString(2);
                 temp.NIC = reader.GetString(3);
                 string xml1 = reader.GetString(4);
-                temp.Location= (Location)xmlToObject<Location>(xml1);
-                temp.DOB=DateTime.Parse(reader.GetString(5));
+                temp.Location = (Location)xmlToObject<Location>(xml1);
+                temp.DOB = DateTime.Parse(reader.GetString(5));
                 temp.ContactNo = reader.GetString(6);
                 temp.Email = reader.GetString(7);
                 temp.BloodType = reader.GetString(8);
-                temp.health=(HealthCondition)xmlToObject<HealthCondition>(reader.GetString(9));
+                temp.health = (HealthCondition)xmlToObject<HealthCondition>(reader.GetString(9));
                 temp.Username = reader.GetString(10);
                 temp.Password = reader.GetString(11);
                 temp.Status = reader.GetString(12);
+            }
+            con.Close();
+            return temp;
+        }
+
+        public object takeFromDatabase(string filmname)
+        {
+            con.Open();
+            string sql = string.Format(@"Select * From [FilmTable] Where Film.exist('/Film[name={0}]')=1", filmname);
+            SqlCommand abc = new SqlCommand(sql, con);
+            SqlDataReader xxx = abc.ExecuteReader();
+            object temp = null;
+            while (xxx.Read())
+            {
+                string xml = xxx.GetString(0);
+                temp = (object)xmlToObject<object>(xml);
             }
             con.Close();
             return temp;

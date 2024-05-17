@@ -10,7 +10,6 @@ public partial class RegisterPage : ContentPage
 		InitializeComponent();
 	}
 
-
     private void refresh()
     {
         btnReg.IsEnabled = true;

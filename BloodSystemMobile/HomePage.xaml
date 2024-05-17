@@ -4,8 +4,6 @@
              x:Class="BloodSystemMobile.HomePage"
              Title="HomePage">
     <VerticalStackLayout>
-
-
         <CarouselView x:Name="MainBanner" IndicatorView="BannerIndicator">
             <CarouselView.ItemTemplate>
                 <DataTemplate>
@@ -16,7 +14,6 @@
             </CarouselView.ItemTemplate>
         </CarouselView>
         <IndicatorView x:Name="BannerIndicator" HorizontalOptions="Center">
-
         </IndicatorView>
         
         <VerticalStackLayout x:Name="guestpath" ZIndex="0">
@@ -53,9 +50,6 @@
                 </CollectionView>
             </Grid>
         </VerticalStackLayout>
-        
-        
-        
 
         <Label Text="Upcoming Events" FontSize="Large" FontAttributes="Bold"/>
         <CarouselView x:Name="UpcomingView" IndicatorView="UpcommingIndicator">

@@ -13,9 +13,5 @@ namespace BloodDonationManamentSystem
         public bool isCollecting { get; set; }
         public List<TimeSpan> OpenTimes { get; set; }
 
-        public Hospital() 
-        {
-            
-        }
     }
 }

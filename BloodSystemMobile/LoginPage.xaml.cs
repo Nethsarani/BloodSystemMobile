@@ -10,10 +10,11 @@ public partial class LoginPage : ContentPage
 	{
 		InitializeComponent();
         lblError.IsVisible = false;
-        
     }
     private async void btnLogin_Clicked(object sender, EventArgs e)
     {
+        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+        /*
         Donor logged=dB.DonorLogin(txtUsername.Text, txtPassword.Text);
         if (logged != null)
         {
@@ -38,6 +39,7 @@ public partial class LoginPage : ContentPage
             txtPassword.Text = "";
             lblError.IsVisible = true;
         }
+        */
     }
 
     private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)

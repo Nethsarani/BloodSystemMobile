@@ -68,7 +68,6 @@
         HorizontalOptions="Center" 
                 Margin="0,15,0,0"/>
 
-
         </VerticalStackLayout>
 
     </ScrollView>
