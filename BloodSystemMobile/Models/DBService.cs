@@ -212,11 +212,10 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public Task<DonationCamp> getDonationCamp(int id)
+        public async Task<DonationCamp> getDonationCamp(int id)
         {
-            command = new SqlCommand("Select * from DonationCampTable WHERE ID=@id;", con);
-
-            DonationCamp x = new DonationCamp(); ;
+            DonationCamp x = new DonationCamp();
+            x = await _connection.QueryAsync<DonationCamp>("Select * from DonationCampTable WHERE ID=@id;", con);
             return x;
         }
 
@@ -243,40 +242,6 @@ namespace BloodSystemMobile.Models
                 xmlString = new StreamReader(memoryStream).ReadToEnd();
             }
             return xmlString;
-        }
-
-
-        public User Login(string username, string password, string type)
-        {
-            command = new SqlCommand(@"Select * From DonorTable Where Username=@username and Password=@password", con);
-
-            User temp = null;
-            while (reader.Read())
-            {
-                if (type == "HospitalUsers")
-                {
-                    temp = new HospitalUser();
-                }
-                else if (type == "DonationCampUsers")
-                {
-                    temp = new DonationCampUser();
-                }
-                else
-                {
-                    temp = new User();
-                }
-                temp.Id = reader.GetInt32(0);
-                temp.Name = reader.GetString(2);
-                temp.NIC = reader.GetString(3);
-                temp.Position = reader.GetString(4);
-                temp.ContactNo = reader.GetString(5);
-                temp.Email = reader.GetString(6);
-                temp.Password = reader.GetString(8);
-                temp.UserName = reader.GetString(7);
-                string xml = reader.GetString(9);
-                //temp.Privilages = (Privilages)xmlToObject<Privilages>(xml);
-            }
-            return temp;
         }
 
         public Donor DonorLogin(string username, string password)
