@@ -91,16 +91,11 @@ namespace BloodSystemMobile.Models
             
         }
 
-        public bool userCheck(string type, string username)
+        public async bool userCheck(string type, string username)
         {
+          int x=0;
+          x=await _connection.QueryAsync<int>("Select Count(ID) from " + type + "Table WHERE Username=@user;");
             bool available = true;
-            command = new SqlCommand("Select Count(ID) from " + type + "Table WHERE Username=@user;", con);
-            
-            int x = 0;
-            while (reader.Read())
-            {
-                x = reader.GetInt32(0);
-            }
             if (x > 0)
             {
                 available = false;
@@ -108,26 +103,17 @@ namespace BloodSystemMobile.Models
             return available;
         }
 
-        public int IDCheck(string type, string value, string property)
+        public async int IDCheck(string type, string value, string property)
         {
-            command = new SqlCommand("Select ID from " + type + "Table WHERE @property=@value;", con);
-            int x = 0;
-            while (reader.Read())
-            {
-                x = reader.GetInt32(0);
-            }
-
+          int x = 0;
+            x = await _connection.QueryAsync<int>("Select ID from " + type + "Table WHERE @property=@value;");
             return x;
         }
 
-        public List<String> getDistrict()
+        public async List<String> getDistrict()
         {
-            command = new SqlCommand("Select name_en from districtsTable;", con);
-            List<String> x = new List<string>();
-            while (reader.Read())
-            {
-                x.Add(reader.GetString(0));
-            }
+          List<String> x = new List<string>();
+            x = async _connection.QueryAsync<List<string>>("Select name_en from districtsTable;");
             return x;
         }
 
