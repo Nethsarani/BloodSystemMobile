@@ -93,10 +93,11 @@ namespace BloodSystemMobile.Models
 
         public async Task<bool> userCheck(string type, string username)
         {
-          int x=0;
-          x=await _connection.QueryAsync<int>("Select Count(ID) from " + type + "Table WHERE Username=@user;");
+          List<int> x= new List<int>();
+            x[0] = 0;
+          x=await _connection.QueryAsync<int>("Select Count(ID) from " + type + "Table WHERE Username=?;",username);
             bool available = true;
-            if (x > 0)
+            if (x[0] > 0)
             {
                 available = false;
             }
@@ -105,35 +106,33 @@ namespace BloodSystemMobile.Models
 
         public async Task<int> IDCheck(string type, string value, string property)
         {
-          int x = 0;
-            x = await _connection.QueryAsync<int>("Select ID from " + type + "Table WHERE @property=@value;");
+          List<int> x = new List<int>();
+            x = await _connection.QueryAsync<int>("Select ID from " + type + "Table WHERE ? =? ;",property,value);
+            return x[0];
+        }
+
+        public async Task<List<string>> getDistrict()
+        {
+          List<string> x = new List<string>();
+            x = await _connection.QueryAsync<string>("Select name_en from districtsTable;");
             return x;
         }
 
-        public async Task<List<String>> getDistrict()
+        public async Task<List<string>> getCity(string district)
         {
-          List<String> x = new List<string>();
-            x = async _connection.QueryAsync<List<string>>("Select name_en from districtsTable;");
+            int disID = int.Parse(IDCheck("districts", district, "name_en").ToString());
+            List<string> x = new List<string>();
+            x = await _connection.QueryAsync<string>("Select name_en from citiesTable WHERE district_id=?;",disID);
             return x;
         }
 
-        public async Task<List<String>> getCity(String district)
+        public async Task<Dictionary<int, string>> getCentre(string city)
         {
-            int disID = IDCheck("districts", district, "name_en");
-            command = new SqlCommand("Select name_en from citiesTable WHERE district_id=@id;", con);
-            List<String> x = new List<string>();
-            while (reader.Read())
-            {
-                x.Add(reader.GetString(0));
-            }
-            return x;
-        }
+            Dictionary<int, string> list = new Dictionary<int, string>();
+            List<KeyValuePair<int, string>> li = new List<KeyValuePair<int, string>>();
+            li= await _connection.QueryAsync<KeyValuePair<int,string>>(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={?}]')=1", city);
 
-        public async Task<Dictionary<int, String>> getCentre(String city)
-        {
-            string sql = string.Format(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={0}]')=1", city);
-
-            Dictionary<int, String> list = new Dictionary<int, String>();
+            list = li.ToDictionary<int, string>(IEnumerable<KeyValuePair<int,string>>);
             while (reader.Read())
             {
                 list.Add(reader.GetInt32(0), reader.GetString(1));
@@ -148,27 +147,16 @@ namespace BloodSystemMobile.Models
             return list;
         }
 
-        public Task<List<TimeRange>> checkTime(int id)
+        public async Task<List<TimeRange>> checkTime(int id)
         {
-            DateTime date;
-            TimeSpan start;
-            TimeSpan end;
             List<TimeRange> x = new List<TimeRange>();
             if (id % 2 == 0)
             {
-                command = new SqlCommand("Select Date,StartTime,EndTime from DonationCampTable WHERE IDd=@id;", con);
-
-                while (reader.Read())
-                {
-                    TimeRange x1 = new TimeRange();
-                    x1.Date = reader.GetDateTime(0).ToString();
-                    x1.Open = reader.GetTimeSpan(1).ToString();
-                    x1.Close = reader.GetTimeSpan(2).ToString();
-                }
+                x = await _connection.QueryAsync<TimeRange>("Select Date,StartTime,EndTime from DonationCampTable WHERE IDd=?;",id);
             }
             else
             {
-                command = new SqlCommand("Select OpenTimes from HospitalTable WHERE ID=@id;", con);
+                x = await _connection.QueryAsync<TimeRange>("Select OpenTimes from HospitalTable WHERE ID=@id;", con);
 
                 while (reader.Read())
                 {
@@ -179,7 +167,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public async Task<List<Request>> getRequests(String blood)
+        public async Task<List<Request>> getRequests(string blood)
         {
             command = new SqlCommand("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
 
