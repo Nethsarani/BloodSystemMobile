@@ -209,22 +209,6 @@ namespace BloodSystemMobile.Models
         {
             command = new SqlCommand("Select * from HospitalTable WHERE ID=@id;", con);
             Hospital x = new Hospital();
-            while (reader.Read())
-            {
-                x.ID = reader.GetInt32(0);
-                x.Name = reader.GetString(1);
-                x.RegNo = reader.GetString(2);
-                x.Location = xmlToObject<Location>(reader.GetString(3));
-                x.ContactNo = reader.GetString(4);
-                x.Email = reader.GetString(5);
-                x.isTesting = reader.GetBoolean(6);
-                x.isCollecting = reader.GetBoolean(7);
-                x.OpenTimes = xmlToObject<List<TimeSpan>>(reader.GetString(8));
-                x.Username = reader.GetString(9);
-                x.Password = reader.GetString(10);
-                x.Status = reader.GetString(11);
-
-            }
             return x;
         }
 
@@ -233,20 +217,6 @@ namespace BloodSystemMobile.Models
             command = new SqlCommand("Select * from DonationCampTable WHERE ID=@id;", con);
 
             DonationCamp x = new DonationCamp(); ;
-            while (reader.Read())
-            {
-                x.ID = reader.GetInt32(0);
-                x.Name = reader.GetString(1);
-                x.Date = reader.GetDateTime(2);
-                x.StartTime = reader.GetString(3);
-                x.EndTime = reader.GetString(4);
-                x.ContactNo = reader.GetString(5);
-                x.Email = reader.GetString(6);
-                x.Location = xmlToObject<Location>(reader.GetString(7));
-                x.Username = reader.GetString(8);
-                x.Password = reader.GetString(9);
-                x.Status = reader.GetString(10);
-            }
             return x;
         }
 
@@ -314,37 +284,9 @@ namespace BloodSystemMobile.Models
             command = new SqlCommand(@"Select * From DonorTable Where Username=@username and Password=@password", con);
 
             Donor temp = null;
-            while (reader.Read())
-            {
-                temp = new Donor();
-                temp.ID = reader.GetInt32(0);
-                temp.Name = reader.GetString(1);
-                temp.Gender = reader.GetString(2);
-                temp.NIC = reader.GetString(3);
-                string xml1 = reader.GetString(4);
-                temp.Location = (Location)xmlToObject<Location>(xml1);
-                temp.DOB = DateTime.Parse(reader.GetString(5));
-                temp.ContactNo = reader.GetString(6);
-                temp.Email = reader.GetString(7);
-                temp.BloodType = reader.GetString(8);
-                temp.health = (HealthCondition)xmlToObject<HealthCondition>(reader.GetString(9));
-                temp.Username = reader.GetString(10);
-                temp.Password = reader.GetString(11);
-                temp.Status = reader.GetString(12);
-            }
             return temp;
         }
 
-        public object takeFromDatabase(string filmname)
-        {
-            string sql = string.Format(@"Select * From [FilmTable] Where Film.exist('/Film[name={0}]')=1", filmname);
-            object temp = null;
-            while (xxx.Read())
-            {
-                string xml = xxx.GetString(0);
-                temp = (object)xmlToObject<object>(xml);
-            }
-            return temp;
-        }
+        
     }
 }
