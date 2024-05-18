@@ -91,7 +91,7 @@ namespace BloodSystemMobile.Models
             
         }
 
-        public async bool userCheck(string type, string username)
+        public async Task<bool> userCheck(string type, string username)
         {
           int x=0;
           x=await _connection.QueryAsync<int>("Select Count(ID) from " + type + "Table WHERE Username=@user;");
@@ -103,21 +103,21 @@ namespace BloodSystemMobile.Models
             return available;
         }
 
-        public async int IDCheck(string type, string value, string property)
+        public async Task<int> IDCheck(string type, string value, string property)
         {
           int x = 0;
             x = await _connection.QueryAsync<int>("Select ID from " + type + "Table WHERE @property=@value;");
             return x;
         }
 
-        public async List<String> getDistrict()
+        public async Task<List<String>> getDistrict()
         {
           List<String> x = new List<string>();
             x = async _connection.QueryAsync<List<string>>("Select name_en from districtsTable;");
             return x;
         }
 
-        public List<String> getCity(String district)
+        public async Task<List<String>> getCity(String district)
         {
             int disID = IDCheck("districts", district, "name_en");
             command = new SqlCommand("Select name_en from citiesTable WHERE district_id=@id;", con);
@@ -129,7 +129,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public Dictionary<int, String> getCentre(String city)
+        public async Task<Dictionary<int, String>> getCentre(String city)
         {
             string sql = string.Format(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={0}]')=1", city);
 
@@ -148,7 +148,7 @@ namespace BloodSystemMobile.Models
             return list;
         }
 
-        public List<TimeRange> checkTime(int id)
+        public Task<List<TimeRange>> checkTime(int id)
         {
             DateTime date;
             TimeSpan start;
@@ -179,7 +179,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public List<Request> getRequests(String blood)
+        public async Task<List<Request>> getRequests(String blood)
         {
             command = new SqlCommand("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
 
@@ -194,7 +194,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public List<Donation> getDonations(int id)
+        public async TaskList<Donation> getDonations(int id)
         {
             command = new SqlCommand("Select CollectionPointID,Date from DonationTable WHERE DonorID=@id;", con);
 
@@ -217,7 +217,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public Hospital getHospital(int id)
+        public async Task<Hospital> getHospital(int id)
         {
             command = new SqlCommand("Select * from HospitalTable WHERE ID=@id;", con);
             Hospital x = new Hospital();
@@ -240,7 +240,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public DonationCamp getDonationCamp(int id)
+        public Task<DonationCamp> getDonationCamp(int id)
         {
             command = new SqlCommand("Select * from DonationCampTable WHERE ID=@id;", con);
 
