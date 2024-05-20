@@ -169,46 +169,23 @@ namespace BloodSystemMobile.Models
 
         public async Task<List<Request>> getRequests(string blood)
         {
-            command = new SqlCommand("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
-
-            List<Request> x = new List<Request>();
-            while (reader.Read())
-            {
-                Request request = new Request();
-                request.Hospital = getHospital(reader.GetInt32(0));
-                request.BloodAmount = reader.GetDecimal(1);
-                x.Add(request);
-            }
+          List<Request> x = new List<Request>();
+            x = await _connection.QueryAsync<Request>("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
             return x;
         }
 
         public async TaskList<Donation> getDonations(int id)
         {
-            command = new SqlCommand("Select CollectionPointID,Date from DonationTable WHERE DonorID=@id;", con);
-
-            List<Donation> x = new List<Donation>();
-            while (reader.Read())
-            {
-                Donation don = new Donation();
-                if (reader.GetInt32(0) % 2 == 0)
-                {
-                    don.collectionPoint = getDonationCamp(reader.GetInt32(0));
-                }
-                else
-                {
-                    don.collectionPoint = getHospital(reader.GetInt32(0));
-                }
-
-                don.Date = reader.GetDateTime(1);
-                x.Add(don);
-            }
+          List<Donation> x = new List<Donation>();
+            x = await _connection.QueryAsync<Donation>("Select CollectionPointID,Date from DonationTable WHERE DonorID=@id;", con);
             return x;
         }
 
         public async Task<Hospital> getHospital(int id)
         {
-            command = new SqlCommand("Select * from HospitalTable WHERE ID=@id;", con);
-            Hospital x = new Hospital();
+          Hospital x = new Hospital();
+            x = await _connection.QueryAsync<Hospiya>("Select * from HospitalTable WHERE ID=@id;", con);
+            
             return x;
         }
 
