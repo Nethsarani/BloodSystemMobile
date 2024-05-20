@@ -102,7 +102,8 @@ namespace BloodSystemMobile.Models
         public async Task<List<string>> getDistrict()
         {
           List<string> x = new List<string>();
-            x = await _connection.QueryAsync<string>("Select name_en from districtsTable;");
+            await _connection.
+            x = await _connection.QueryAsync("Select name_en from districtsTable;");
             return x;
         }
 
@@ -122,7 +123,7 @@ namespace BloodSystemMobile.Models
 
             list = li.ToDictionary<int, string>(IEnumerable<KeyValuePair<int,string>>);
 
-            list = await _co(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
+            list = await _connection.QueryAsync<KeyValuePair<int, string>>(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
 
             
             return list;
