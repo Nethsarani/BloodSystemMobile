@@ -102,8 +102,8 @@ namespace BloodSystemMobile.Models
         public async Task<List<string>> getDistrict()
         {
           List<string> x = new List<string>();
-            await _connection.
-            x = await _connection.QueryAsync("Select name_en from districtsTable;");
+            
+            //x = await _connection.QueryAsync("Select name_en from districtsTable;");
             return x;
         }
 
@@ -111,7 +111,7 @@ namespace BloodSystemMobile.Models
         {
             int disID = int.Parse(IDCheck("districts", district, "name_en").ToString());
             List<string> x = new List<string>();
-            x = await _connection.QueryAsync<string>("Select name_en from citiesTable WHERE district_id=?;",disID);
+            //x = await _connection.QueryAsync<string>("Select name_en from citiesTable WHERE district_id=?;",disID);
             return x;
         }
 
@@ -121,9 +121,9 @@ namespace BloodSystemMobile.Models
             List<KeyValuePair<int, string>> li = new List<KeyValuePair<int, string>>();
             li= await _connection.QueryAsync<KeyValuePair<int,string>>(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={?}]')=1", city);
 
-            list = li.ToDictionary<int, string>(IEnumerable<KeyValuePair<int,string>>);
+            //list = li.ToDictionary<int, string>(IEnumerable<KeyValuePair<int,string>>);
 
-            list = await _connection.QueryAsync<KeyValuePair<int, string>>(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
+           // list = await _connection.QueryAsync<KeyValuePair<int, string>>(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
 
             
             return list;
@@ -138,12 +138,12 @@ namespace BloodSystemMobile.Models
             }
             else
             {
-                List<string> xml = await _connection.QueryAsync<String>("Select OpenTimes from HospitalTable WHERE ID=?;", id);
+                //List<string> xml = await _connection.QueryAsync<String>("Select OpenTimes from HospitalTable WHERE ID=?;", id);
 
-                foreach (string s in xml)
-                {
-                    x.Add(xmlToObject<TimeRange>(s));
-                }
+                //foreach (string s in xml)
+                //{
+                //    x.Add(xmlToObject<TimeRange>(s));
+                //}
                 
             }
             return x;
