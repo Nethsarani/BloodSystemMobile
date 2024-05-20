@@ -156,7 +156,7 @@ namespace BloodSystemMobile.Models
             }
             else
             {
-                x = await _connection.QueryAsync<TimeRange>("Select OpenTimes from HospitalTable WHERE ID=@id;", con);
+                x = await _connection.QueryAsync<TimeRange>("Select OpenTimes from HospitalTable WHERE ID=?;", id);
 
                 while (reader.Read())
                 {
@@ -170,21 +170,21 @@ namespace BloodSystemMobile.Models
         public async Task<List<Request>> getRequests(string blood)
         {
           List<Request> x = new List<Request>();
-            x = await _connection.QueryAsync<Request>("Select HospitalID, Amount from RequestTable WHERE BloodType=@type AND Status='Pending';", con);
+            x = await _connection.QueryAsync<Request>("Select HospitalID, Amount from RequestTable WHERE BloodType=? AND Status='Pending';",blood);
             return x;
         }
 
         public async TaskList<Donation> getDonations(int id)
         {
           List<Donation> x = new List<Donation>();
-            x = await _connection.QueryAsync<Donation>("Select CollectionPointID,Date from DonationTable WHERE DonorID=@id;", con);
+            x = await _connection.QueryAsync<Donation>("Select CollectionPointID,Date from DonationTable WHERE DonorID=?;",id);
             return x;
         }
 
         public async Task<Hospital> getHospital(int id)
         {
           Hospital x = new Hospital();
-            x = await _connection.QueryAsync<Hospiya>("Select * from HospitalTable WHERE ID=@id;", con);
+            x = await _connection.QueryAsync<Hospiya>("Select * from HospitalTable WHERE ID=?;", id);
             
             return x;
         }
@@ -192,7 +192,7 @@ namespace BloodSystemMobile.Models
         public async Task<DonationCamp> getDonationCamp(int id)
         {
             DonationCamp x = new DonationCamp();
-            x = await _connection.QueryAsync<DonationCamp>("Select * from DonationCampTable WHERE ID=@id;", con);
+            x = await _connection.QueryAsync<DonationCamp>("Select * from DonationCampTable WHERE ID=?;", id);
             return x;
         }
 
@@ -221,11 +221,10 @@ namespace BloodSystemMobile.Models
             return xmlString;
         }
 
-        public Donor DonorLogin(string username, string password)
+        public async Task<Donor> DonorLogin(string username, string password)
         {
-            command = new SqlCommand(@"Select * From DonorTable Where Username=@username and Password=@password", con);
-
             Donor temp = null;
+            temp = await _connection.QueryAsync<Donor>(@"Select * From DonorTable Where Username=? and Password=?", username,password);
             return temp;
         }
 
