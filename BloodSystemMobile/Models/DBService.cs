@@ -21,73 +21,61 @@ namespace BloodSystemMobile.Models
             _connection=new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, DBName));
         }
 
-        public void insertToDatabase(object classobj, string type)
+        public async void insertToDatabase(object classobj, string type)
         {
 
             if (type == "Hospital")
             {
                 Hospital obj = (Hospital)classobj;
-                command = new SqlCommand("insert into HospitalTable (Name,RegNo,Location,ContactNo,Email,IsTesting,IsCollecting,OpenTimes,Username,Password,Status) values (@name, @regNo, @location, @contact, @email, @testing, @collecting, @open, @username, @password, @status);", con);
+                await _connection.InsertAsync(obj);
                 
             }
             else if (type == "DonationCamp")
             {
                 DonationCamp obj = (DonationCamp)classobj;
-                command = new SqlCommand("insert into DonationCampTable (Name, Date, StartTime, EndTime, ContactNo ,Email, Location, Username, Password, Status) values (@name, @date, @starttime, @endtime, @contact, @email, @location, @username, @password, @status);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "Donor")
             {
                 Donor obj = (Donor)classobj;
-                command = new SqlCommand("insert into DonorTable (Name, Gender, NIC, Location, DOB, ContactNo, Email, BloodType, HealthCondition, Username, Password, Status) values (@name, @gender, @nic, @location, @dob, @contact, @email, @type, @health, @username, @password, @status);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "Donation")
             {
                 Donation obj = (Donation)classobj;
-                command = new SqlCommand("insert into DonationTable (DonorID, Place, Date, Status) values (@donor, @place, @date, @status);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "Appointment")
             {
                 Appointment obj = (Appointment)classobj;
-                command = new SqlCommand("insert into AppointmentTable (DonorID, CollectionPointID, Date, Time, Description, Status) values (@donor, @place, @date, @time, @desc, @status);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "BloodStock")
             {
                 BloodStock obj = (BloodStock)classobj;
-                command = new SqlCommand("insert into BloodStockTable (Name, Location, Type, Amount, ExpiryDate) values (@name, @location, @type, @amount, @expire);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "Request")
             {
                 Request obj = (Request)classobj;
-                command = new SqlCommand("insert into RequestTable (HospitalID, Date, BloodType, Amount, Status) values (@hospital, @date, @type, @amount, @status);", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "HospitalUsers")
             {
                 HospitalUser obj = (HospitalUser)classobj;
-                command = new SqlCommand("insert into HospitalUsersTable (HospitalID, Name, NIC, Position, ContactNo, Email, Username, Password, Privialges) values (@hospital, @name, @nic, @position, @contact, @email, @username, @password, @privilages );", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "DonationCampUsers")
             {
                 DonationCampUser obj = (DonationCampUser)classobj;
-                command = new SqlCommand("insert into DonationCampUsersTable (DonationCampID, Name, NIC, Position, ContactNo, Email, Username, Password, Privialges) values (@hospital, @name, @nic, @position, @contact, @email, @username, @password, @privilages );", con);
-                
+                await _connection.InsertAsync(obj);
             }
             else if (type == "BloodBankUsers")
             {
                 User obj = (User)classobj;
-                command = new SqlCommand("insert into BloodBankUsersTable (Name, NIC, Position, ContactNo, Email, Username, Password, Privialges) values (@name, @nic, @position, @contact, @email, @username, @password, @privilages );", con);
-                
+                await _connection.InsertAsync(obj);
             }
-            else
-            {
-                command = new SqlCommand();
-            }
+            
             
         }
 
@@ -133,17 +121,10 @@ namespace BloodSystemMobile.Models
             li= await _connection.QueryAsync<KeyValuePair<int,string>>(@"Select ID,Name From [HospitalTable] Where Location.exist('/Location[City={?}]')=1", city);
 
             list = li.ToDictionary<int, string>(IEnumerable<KeyValuePair<int,string>>);
-            while (reader.Read())
-            {
-                list.Add(reader.GetInt32(0), reader.GetString(1));
 
-            }
-            sql = string.Format(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
+            list = await _co(@"Select ID,Name From [DonationCampTable] Where Location.exist('/Location[City={0}]')=1", city);
 
-            while (reader.Read())
-            {
-                list.Add(reader.GetInt32(0), reader.GetString(1));
-            }
+            
             return list;
         }
 
@@ -156,13 +137,13 @@ namespace BloodSystemMobile.Models
             }
             else
             {
-                x = await _connection.QueryAsync<TimeRange>("Select OpenTimes from HospitalTable WHERE ID=?;", id);
+                List<string> xml = await _connection.QueryAsync<String>("Select OpenTimes from HospitalTable WHERE ID=?;", id);
 
-                while (reader.Read())
+                foreach (string s in xml)
                 {
-                    string xml = reader.GetString(0);
-                    x.Add(xmlToObject<TimeRange>(xml));
+                    x.Add(xmlToObject<TimeRange>(s));
                 }
+                
             }
             return x;
         }
@@ -174,7 +155,7 @@ namespace BloodSystemMobile.Models
             return x;
         }
 
-        public async TaskList<Donation> getDonations(int id)
+        public async Task<List<Donation>> getDonations(int id)
         {
           List<Donation> x = new List<Donation>();
             x = await _connection.QueryAsync<Donation>("Select CollectionPointID,Date from DonationTable WHERE DonorID=?;",id);
@@ -183,17 +164,17 @@ namespace BloodSystemMobile.Models
 
         public async Task<Hospital> getHospital(int id)
         {
-          Hospital x = new Hospital();
-            x = await _connection.QueryAsync<Hospiya>("Select * from HospitalTable WHERE ID=?;", id);
+          List<Hospital> x = new List<Hospital>();
+          x = await _connection.QueryAsync<Hospital>("Select * from HospitalTable WHERE ID=?;", id);
             
-            return x;
+            return x[0];
         }
 
         public async Task<DonationCamp> getDonationCamp(int id)
         {
-            DonationCamp x = new DonationCamp();
+            List<DonationCamp> x = new List<DonationCamp>();
             x = await _connection.QueryAsync<DonationCamp>("Select * from DonationCampTable WHERE ID=?;", id);
-            return x;
+            return x[0];
         }
 
         static T xmlToObject<T>(string xmlString)
@@ -223,9 +204,9 @@ namespace BloodSystemMobile.Models
 
         public async Task<Donor> DonorLogin(string username, string password)
         {
-            Donor temp = null;
+            List<Donor> temp = null;
             temp = await _connection.QueryAsync<Donor>(@"Select * From DonorTable Where Username=? and Password=?", username,password);
-            return temp;
+            return temp[0];
         }
 
         
