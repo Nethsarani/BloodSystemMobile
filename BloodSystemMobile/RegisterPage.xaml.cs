@@ -4,7 +4,7 @@ namespace BloodSystemMobile;
 
 public partial class RegisterPage : ContentPage
 {
-    DB dB = new DB();
+    DBService dB = new DBService();
     public RegisterPage()
 	{
 		InitializeComponent();
