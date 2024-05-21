@@ -5,7 +5,7 @@ namespace BloodSystemMobile;
 [QueryProperty(nameof(donor), "donor")]
 public partial class DonationPage : ContentPage
 {
-    DB dB = new DB();
+    DBService dB = new DBService();
     public Donor donor
     {
         set
