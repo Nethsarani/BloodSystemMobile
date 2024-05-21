@@ -4,7 +4,7 @@ namespace BloodSystemMobile;
 
 public partial class LoginPage : ContentPage
 {
-	DB dB = new DB();
+	DBService dB = new DBService();
 
 	public LoginPage()
 	{
