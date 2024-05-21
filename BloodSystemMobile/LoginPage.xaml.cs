@@ -1,10 +1,11 @@
 using BloodDonationManamentSystem;
+using BloodSystemMobile.Models;
 
 namespace BloodSystemMobile;
 
 public partial class LoginPage : ContentPage
 {
-	DBService dB = new DBService();
+    DBService dB = new DBService();
 
 	public LoginPage()
 	{

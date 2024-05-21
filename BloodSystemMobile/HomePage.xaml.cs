@@ -1,4 +1,5 @@
 using BloodDonationManamentSystem;
+using BloodSystemMobile.Models;
 namespace BloodSystemMobile;
 
 [QueryProperty(nameof(donor), "donor")]
@@ -19,7 +20,7 @@ public partial class HomePage : ContentPage
 		InitializeComponent();
         if(loggedDonor != null)
         {
-            Table.ItemsSource = dB.getRequests(loggedDonor.BloodType);
+            Task.Run(async()=>Table.ItemsSource = await dB.getRequests(loggedDonor.BloodType));
             guestpath.IsVisible = false;
             donorpath.IsVisible = true;
         }

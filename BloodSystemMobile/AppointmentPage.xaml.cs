@@ -1,5 +1,6 @@
 using BloodDonationManamentSystem;
 using BloodDonationManamentSystem.Models;
+using BloodSystemMobile.Models;
 using System.Xml.Linq;
 
 namespace BloodSystemMobile;
@@ -25,7 +26,7 @@ public partial class AppointmentPage : ContentPage
             pckPurpose.IsEnabled = false;
         }
 		InitializeComponent();
-        pckDistrict.ItemsSource = dB.getDistrict();
+        Task.Run(async() => pckDistrict.ItemsSource = await dB.getDistrict());
         
 	}
 
@@ -39,7 +40,7 @@ public partial class AppointmentPage : ContentPage
         if (loggedDonor.Status == "Pending")
         {
             dB.insertToDatabase(loggedDonor, "Donor");
-            loggedDonor.ID=dB.IDCheck("Donor", loggedDonor.Username, "Username");
+            Task.Run(async()=>loggedDonor.ID=await dB.IDCheck("Donor", loggedDonor.Username, "Username"));
         }
         appoint.Description = pckPurpose.SelectedItem.ToString();
         dB.insertToDatabase(appoint,"Appointment");
@@ -56,7 +57,7 @@ public partial class AppointmentPage : ContentPage
 
     private void pckDistrict_SelectedIndexChanged(object sender, EventArgs e)
     {
-        pckCity.ItemsSource=dB.getCity(pckDistrict.SelectedItem.ToString());
+        Task.Run(async()=> pckCity.ItemsSource=await dB.getCity(pckDistrict.SelectedItem.ToString()));
     }
     int selectedId = 0;
     public void pckCentre_SelectedIndexChanged(object sender, EventArgs e)
@@ -71,8 +72,9 @@ public partial class AppointmentPage : ContentPage
         }
         if (selectedId % 2 == 0)
         {
-            pckDate.MaximumDate=DateTime.Parse(dB.checkTime(selectedId)[0].Date);
-            pckDate.MinimumDate = DateTime.Parse(dB.checkTime(selectedId)[0].Date);
+            
+           //pckDate.MaximumDate=DateTime.Parse(dB.checkTime(selectedId)[0].Date);
+           // pckDate.MinimumDate = DateTime.Parse(dB.checkTime(selectedId)[0].Date);
             //pckTime.MinimumTime=TimeSpan.Parse(dB.checkTime(selectedId)[0].Open);
             //pckTime.MaximumTime = TimeSpan.Parse(dB.checkTime(selectedId)[0].Close);
         }
@@ -86,7 +88,7 @@ public partial class AppointmentPage : ContentPage
 
     private void pckCity_SelectedIndexChanged(object sender, EventArgs e)
     {
-        dic = dB.getCentre(pckCity.SelectedItem.ToString());
+       Task.Run(async()=> dic = await dB.getCentre(pckCity.SelectedItem.ToString()));
         List<string> list = dic.Values.ToList();
         pckCentre.ItemsSource = list;
     }
@@ -96,7 +98,9 @@ public partial class AppointmentPage : ContentPage
         if (selectedId%2!=0)
         {
             string Date=pckDate.Date.ToString();
-            foreach(TimeRange day in dB.checkTime(selectedId))
+            List<TimeRange> timeRanges = new List<TimeRange>();
+            Task.Run(async () => timeRanges = await dB.checkTime(selectedId));
+            foreach (TimeRange day in timeRanges)
             {
                 if(Date== day.Date)
                 {

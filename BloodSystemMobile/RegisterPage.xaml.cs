@@ -1,4 +1,5 @@
 using BloodDonationManamentSystem;
+using BloodSystemMobile.Models;
 
 namespace BloodSystemMobile;
 
@@ -58,8 +59,12 @@ public partial class RegisterPage : ContentPage
             bdrEmail.Stroke = Color.FromArgb("#FF0000");
             btnReg.IsEnabled = false;
         }
-        if (txtUsername.Text == "" || dB.userCheck("Donor",txtUsername.Text)==false)
+        bool a=true;
+        Task.Run(async () => a= await dB.userCheck("Donor", txtUsername.Text));
+        if (txtUsername.Text == "" || a==false)
         {
+
+          
             bdrUName.Stroke = Color.FromArgb("#FF0000");
             btnReg.IsEnabled = false;
         }

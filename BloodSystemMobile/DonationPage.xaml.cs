@@ -1,4 +1,5 @@
 using BloodDonationManamentSystem;
+using BloodSystemMobile.Models;
 
 namespace BloodSystemMobile;
 
@@ -17,6 +18,6 @@ public partial class DonationPage : ContentPage
     public DonationPage()
 	{
 		InitializeComponent();
-        Table.ItemsSource = dB.getDonations(loggedDonor.ID);
+        Task.Run(async()=>Table.ItemsSource =await dB.getDonations(loggedDonor.ID));
 	}
 }
