@@ -19,7 +19,7 @@
 
         <Picker x:Name="pckCentre" Title="Centre" SelectedIndexChanged="pckCentre_SelectedIndexChanged"/>
 
-        <DatePicker x:Name="pckDate" SelectionChanged="pckDate_SelectionChanged"/>
+        <DatePicker x:Name="pckDate" DateSelected  = "pckDate_SelectionChanged"/>
 
         <TimePicker x:Name="pckTime" />
 
