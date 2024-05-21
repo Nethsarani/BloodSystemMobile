@@ -1,6 +1,5 @@
 ﻿using BloodDonationManamentSystem;
 using Microsoft.Extensions.Logging;
-using Telerik.Maui.Controls.Compatibility;
 
 namespace BloodSystemMobile
 {
@@ -13,7 +12,7 @@ namespace BloodSystemMobile
 
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseTelerik()
+                
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
