@@ -73,8 +73,8 @@ public partial class AppointmentPage : ContentPage
         {
             pckDate.MaximumDate=DateTime.Parse(dB.checkTime(selectedId)[0].Date);
             pckDate.MinimumDate = DateTime.Parse(dB.checkTime(selectedId)[0].Date);
-            pckTime.MinimumTime=TimeSpan.Parse(dB.checkTime(selectedId)[0].Open);
-            pckTime.MaximumTime = TimeSpan.Parse(dB.checkTime(selectedId)[0].Close);
+            //pckTime.MinimumTime=TimeSpan.Parse(dB.checkTime(selectedId)[0].Open);
+            //pckTime.MaximumTime = TimeSpan.Parse(dB.checkTime(selectedId)[0].Close);
         }
         else
         {
@@ -100,8 +100,8 @@ public partial class AppointmentPage : ContentPage
             {
                 if(Date== day.Date)
                 {
-                    pckTime.MinimumTime = TimeSpan.Parse(day.Open);
-                    pckTime.MaximumTime = TimeSpan.Parse(day.Close);
+                    //pckTime.MinimumTime = TimeSpan.Parse(day.Open);
+                    //pckTime.MaximumTime = TimeSpan.Parse(day.Close);
                 }
             }  
         }
