@@ -5,7 +5,7 @@ namespace BloodSystemMobile;
 
 public partial class HomePage : ContentPage
 {
-    DB dB = new DB();
+    DBService dB = new DBService();
     public Donor donor
     {
         set
