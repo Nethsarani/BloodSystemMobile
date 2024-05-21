@@ -8,7 +8,7 @@ namespace BloodSystemMobile;
 
 public partial class AppointmentPage : ContentPage
 {
-    DB dB = new DB();
+    DBService dB = new DBService();
     Dictionary<int, String> dic;
     public Donor donor 
     {
